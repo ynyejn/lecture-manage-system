@@ -1,6 +1,6 @@
-package com.example.lecturemanagesystem.interfaces.user;
+package com.example.lecturemanagesystem.interfaces.controller;
 
-import com.example.lecturemanagesystem.domain.LectureSchedule;
+import com.example.lecturemanagesystem.domain.entity.LectureSchedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

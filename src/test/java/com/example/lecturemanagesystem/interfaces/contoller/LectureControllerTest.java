@@ -1,5 +1,6 @@
-package com.example.lecturemanagesystem.interfaces.lecture;
+package com.example.lecturemanagesystem.interfaces.contoller;
 
+import com.example.lecturemanagesystem.interfaces.controller.LectureApplyRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

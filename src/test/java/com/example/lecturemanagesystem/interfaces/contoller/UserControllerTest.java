@@ -1,4 +1,4 @@
-package com.example.lecturemanagesystem.interfaces.user;
+package com.example.lecturemanagesystem.interfaces.contoller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

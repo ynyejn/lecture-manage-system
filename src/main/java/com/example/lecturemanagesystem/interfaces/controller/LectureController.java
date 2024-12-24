@@ -1,6 +1,6 @@
-package com.example.lecturemanagesystem.interfaces.lecture;
+package com.example.lecturemanagesystem.interfaces.controller;
 
-import com.example.lecturemanagesystem.domain.LectureSchedule;
+import com.example.lecturemanagesystem.domain.entity.LectureSchedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
