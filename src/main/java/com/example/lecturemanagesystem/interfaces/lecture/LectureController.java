@@ -1,4 +1,4 @@
-package com.example.lecturemanagesystem.interfaces;
+package com.example.lecturemanagesystem.interfaces.lecture;
 
 import com.example.lecturemanagesystem.domain.LectureSchedule;
 import lombok.RequiredArgsConstructor;
