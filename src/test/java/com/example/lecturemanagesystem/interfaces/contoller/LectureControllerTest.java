@@ -5,6 +5,7 @@ import com.example.lecturemanagesystem.domain.entity.User;
 import com.example.lecturemanagesystem.domain.repository.ILectureScheduleRepository;
 import com.example.lecturemanagesystem.domain.repository.IUserRepository;
 import com.example.lecturemanagesystem.interfaces.dto.LectureEnrollmentRequest;
+import com.example.lecturemanagesystem.testContainers.AbstractTestContainersTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional
-class LectureControllerTest {
+@DirtiesContext
+class LectureControllerTest extends AbstractTestContainersTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +55,6 @@ class LectureControllerTest {
         User savedUser = userRepository.save(user);
         this.userId = savedUser.getId();
     }
-
     // 테스트 데이터 생성을 위한 헬퍼 메서드
     private LectureSchedule createTestLecture() {
         return LectureSchedule.builder()
