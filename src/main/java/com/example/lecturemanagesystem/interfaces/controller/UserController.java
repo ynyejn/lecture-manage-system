@@ -1,6 +1,9 @@
 package com.example.lecturemanagesystem.interfaces.controller;
 
-import com.example.lecturemanagesystem.domain.entity.LectureSchedule;
+import com.example.lecturemanagesystem.domain.dto.LectureScheduleInfo;
+import com.example.lecturemanagesystem.domain.dto.UserLectureSearchCommand;
+import com.example.lecturemanagesystem.domain.service.LectureEnrollmentService;
+import com.example.lecturemanagesystem.interfaces.dto.LectureScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +16,15 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+    private final LectureEnrollmentService lectureEnrollmentService;
     /**
-     * TODO - 특강 신청 완료 목록 조회 API를 작성해주세요.
+     * 특강 신청 완료 목록 조회 API
      */
     @GetMapping("/{userId}/lectures")
-    public List<LectureSchedule> getUserLectures(
-            @PathVariable Long userId
-    ) {
-        return null;
+    public List<LectureScheduleResponse> getUserLectures(@PathVariable Long userId) {
+        List<LectureScheduleInfo> lectures = lectureEnrollmentService.getUserLectures(UserLectureSearchCommand.of(userId));
+        return lectures.stream()
+                .map(LectureScheduleResponse::from)
+                .toList();
     }
 }

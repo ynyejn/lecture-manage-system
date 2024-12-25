@@ -1,5 +1,6 @@
 package com.example.lecturemanagesystem.support.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,9 +12,8 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleApiCustomException(ApiException ex) {
         return ResponseEntity.status(ex.getApiErrorCode().getHttpStatus())
-                .body(new ErrorResponse(ex.getApiErrorCode().getCode(), ex.getApiErrorCode().getMessage()));
+                .body(new ErrorResponse(ex.getApiErrorCode().getCode(), ex.getMessage()));
     }
-
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
