@@ -10,11 +10,9 @@ import java.util.List;
 
 public interface ILectureEnrollmentRepository {
 
-    boolean existsByUserAndLectureSchedule(User user, LectureSchedule lectureSchedule);
-
-    boolean existsByUserAndLectureAtBetween(User user, LocalDateTime start, LocalDateTime end);
-
     LectureEnrollment save(LectureEnrollment lectureEnrollment);
 
     List<LectureEnrollment> findAllByUser(User user);
+
+    List<LectureEnrollment> findAll();
 }

@@ -5,7 +5,6 @@ import com.example.lecturemanagesystem.domain.entity.User;
 import com.example.lecturemanagesystem.domain.repository.ILectureScheduleRepository;
 import com.example.lecturemanagesystem.domain.repository.IUserRepository;
 import com.example.lecturemanagesystem.interfaces.dto.LectureEnrollmentRequest;
-import com.example.lecturemanagesystem.testContainers.AbstractTestContainersTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,8 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@DirtiesContext
-class LectureControllerTest extends AbstractTestContainersTest {
+class LectureControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

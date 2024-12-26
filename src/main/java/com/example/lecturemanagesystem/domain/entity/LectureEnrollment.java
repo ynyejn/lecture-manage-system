@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -13,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
         // user_id, lecture_schedule_id 컬럼의 값이 중복되지 않도록 유니크 제약조건 설정
         @UniqueConstraint(columnNames = {"user_id", "lecture_schedule_id"})
 })
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class LectureEnrollment extends BaseEntity {
 
     @Id
@@ -30,12 +31,13 @@ public class LectureEnrollment extends BaseEntity {
             foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private LectureSchedule lectureSchedule;
 
-    public static LectureEnrollment create(User user, LectureSchedule lectureSchedule) {
-        LectureEnrollment enrollment = new LectureEnrollment();
-        enrollment.user = user;
-        enrollment.lectureSchedule = lectureSchedule;
-        return enrollment;
+    public LectureEnrollment(User user, LectureSchedule lectureSchedule) {
+        this.user = user;
+        this.lectureSchedule = lectureSchedule;
+        user.getLectureEnrollments().add(this);
     }
 
-
+    public void setLecture(LectureSchedule lectureSchedule) {
+        this.lectureSchedule = lectureSchedule;
+    }
 }

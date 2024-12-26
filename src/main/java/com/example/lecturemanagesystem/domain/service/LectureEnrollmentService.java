@@ -18,7 +18,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class LectureEnrollmentService {
 
     private final ILectureScheduleRepository lectureScheduleRepository;
@@ -31,19 +30,17 @@ public class LectureEnrollmentService {
         User user = findUser(command.userId());
         LectureSchedule lecture = findLecture(command.lectureId());
 
-        // 신청 가능 여부 검증
-        validateEnrollment(user, lecture);
+        user.validateEnrollment(lecture);
 
         // 수강 신청 처리
-        LectureEnrollment lectureEnrollment = enrollUserToLecture(user, lecture);
-        return LectureEnrollmentInfo.from(lectureEnrollment);
+        return enrollAndSave(user, lecture);
     }
 
-    public LectureEnrollment enrollUserToLecture(User user, LectureSchedule lecture) {
-        lecture.increaseEnrolledCount();
-        return lectureEnrollmentRepository.save(LectureEnrollment.create(user, lecture));
+    public LectureEnrollmentInfo enrollAndSave(User user, LectureSchedule lecture) {
+        lecture.addEnrollment();
+        LectureEnrollment enrollment = lectureEnrollmentRepository.save(new LectureEnrollment(user, lecture));
+        return LectureEnrollmentInfo.from(enrollment);
     }
-
 
     // 사용자 조회
     public User findUser(Long userId) {
@@ -53,26 +50,11 @@ public class LectureEnrollmentService {
 
     // 특강 조회
     public LectureSchedule findLecture(Long lectureId) {
-        return lectureScheduleRepository.findById(lectureId)
+        return lectureScheduleRepository.findByIdWithPessimisticLock(lectureId)
                 .orElseThrow(() -> new ApiException(ApiErrorCode.LECTURE_NOT_FOUND));
     }
 
-    // 수강 신청 가능 여부 검증
-    public void validateEnrollment(User user, LectureSchedule lecture) {
-        // 이미 신청한 강의인지 확인
-        if (lectureEnrollmentRepository.existsByUserAndLectureSchedule(user, lecture)) {
-            throw new ApiException(ApiErrorCode.ALREADY_ENROLLED_LECTURE);
-        }
-
-        // 강의 시간 중복 확인
-        if (lectureEnrollmentRepository.existsByUserAndLectureAtBetween(user,
-                lecture.getLectureAt().minusHours(1),
-                lecture.getLectureAt().plusHours(1))) {
-            throw new ApiException(ApiErrorCode.DUPLICATE_TIME_SLOT);
-        }
-    }
-
-
+    @Transactional(readOnly = true)
     public List<LectureScheduleInfo> getUserLectures(UserLectureSearchCommand command) {
         User user = findUser(command.userId());
         return lectureEnrollmentRepository.findAllByUser(user)

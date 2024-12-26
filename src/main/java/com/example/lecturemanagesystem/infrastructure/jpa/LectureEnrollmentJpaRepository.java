@@ -13,4 +13,5 @@ public interface LectureEnrollmentJpaRepository extends JpaRepository<LectureEnr
     boolean existsByUserAndLectureSchedule(User user, LectureSchedule lectureSchedule);
 
     List<LectureEnrollment> findAllByUser(User user);
+
 }

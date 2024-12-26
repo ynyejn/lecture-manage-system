@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -18,9 +20,15 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LectureSchedule extends BaseEntity {
 
-    private static final int MAX_ENROLLMENT_COUNT = 30;   // 수강 가능 인원 30명
-    private static final int LECTURE_DURATION_HOURS = 2;    // 수업 시간 2시간
+    /**
+     * 최대 수강 가능 인원
+     */
+    private static final int MAX_ENROLLMENT_COUNT = 30;
 
+    /**
+     * 수업 시간 (단위: 시간)
+     */
+    private static final int LECTURE_DURATION_HOURS = 2;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -32,47 +40,43 @@ public class LectureSchedule extends BaseEntity {
     @Column(name = "instructor_name", nullable = false, length = 30)
     private String instructorName;
 
-    @Column(name = "enrolled_count", nullable = false)
+    @Column(name = "enrolled_count")
     private int enrolledCount;
 
     @Column(name = "lecture_at", nullable = false)
     private LocalDateTime lectureAt;
 
-
-//     수강 가능한 인원인지 확인
-    private boolean hasAvailableCapacity() {
-        return this.enrolledCount < MAX_ENROLLMENT_COUNT;
+    //잔여 수강 가능 인원
+    public int getRemainingCapacity() {
+        return MAX_ENROLLMENT_COUNT - enrolledCount;
     }
 
-    // 수강 신청 가능한 시간인지 확인
+    // 수강 신청 가능한 시간인지 확인 (수업 시작 2시간 전까지만 수강 신청 가능)
     private boolean isEnrollableTime() {
         return this.lectureAt.isAfter(LocalDateTime.now().plusHours(LECTURE_DURATION_HOURS));
+    }
+
+    //     수강 가능한 인원인지 확인
+    private boolean hasAvailableCapacity() {
+        return enrolledCount < MAX_ENROLLMENT_COUNT;
     }
 
     public boolean isAvailableToEnroll() {
         return hasAvailableCapacity() && isEnrollableTime();
     }
 
-    // 전체적인 수강 가능 여부 확인
-    public void validateLectureStatus() {
-//        if (!hasAvailableCapacity()) {
-//            throw new ApiException(ApiErrorCode.EXCEEDED_CAPACITY);
-//        }
+    public void addEnrollment() {
+        validateEnrollment();
+        enrolledCount++;
+    }
 
+    private void validateEnrollment() {
+        if (!hasAvailableCapacity()) {
+            throw new ApiException(ApiErrorCode.EXCEEDED_CAPACITY);
+        }
         if (!isEnrollableTime()) {
             throw new ApiException(ApiErrorCode.LECTURE_UNAVAILABLE);
         }
-    }
-
-    // 수강 인원 증가
-    public void increaseEnrolledCount() {
-        validateLectureStatus();
-        this.enrolledCount++;
-    }
-
-    //잔여 수강 가능 인원
-    public int getRemainingCapacity() {
-        return MAX_ENROLLMENT_COUNT - this.enrolledCount;
     }
 
     @Builder
@@ -80,7 +84,7 @@ public class LectureSchedule extends BaseEntity {
         this.title = title;
         this.instructorName = instructorName;
         this.lectureAt = lectureAt;
-        this.enrolledCount = 0;  // 초기값은 항상 0
+        this.enrolledCount = 0;
     }
 
 

@@ -28,6 +28,10 @@ public class LectureScheduleRepositoryImpl implements ILectureScheduleRepository
     public List<LectureSchedule> findAllByLectureAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay) {
         return lectureScheduleJpaRepository.findAllByLectureAtBetween(startOfDay, endOfDay);
     }
+    @Override
+    public Optional<LectureSchedule> findByIdWithPessimisticLock(Long lectureId) {
+        return lectureScheduleJpaRepository.findByIdWithPessimisticLock(lectureId);
+    }
 
 
 }

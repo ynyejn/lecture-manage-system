@@ -78,7 +78,8 @@ class LectureEnrollmentServiceTest {
         @Test
         void 특강신청시_존재하지않는_강의이면_LECTURE_NOT_FOUND_예외가_발생한다() {
             // given
-            when(lectureScheduleRepository.findById(LECTURE_ID)).thenReturn(Optional.empty());
+            when(lectureScheduleRepository.findByIdWithPessimisticLock(LECTURE_ID))
+                    .thenReturn(Optional.empty());
 
             // when & then
             assertThatThrownBy(() -> lectureEnrollmentService.findLecture(LECTURE_ID))
@@ -86,37 +87,6 @@ class LectureEnrollmentServiceTest {
                     .hasMessage("강의를 찾을 수 없습니다.")
                     .extracting("apiErrorCode")
                     .isEqualTo(ApiErrorCode.LECTURE_NOT_FOUND);
-        }
-
-        @Test
-        void 특강신청시_이미신청한_강의이면_ALREADY_ENROLLED_LECTURE_예외가_발생한다() {
-            // given
-            when(lectureEnrollmentRepository.existsByUserAndLectureSchedule(user, lecture))
-                    .thenReturn(true);
-
-            // when & then
-            assertThatThrownBy(() -> lectureEnrollmentService.validateEnrollment(user, lecture))
-                    .isInstanceOf(ApiException.class)
-                    .hasMessage("이미 신청한 강의입니다.")
-                    .extracting("apiErrorCode")
-                    .isEqualTo(ApiErrorCode.ALREADY_ENROLLED_LECTURE);
-        }
-
-        @Test
-        void 특강신청시_동일시간대에_이미수강중인_강의가_있으면_DUPLICATE_TIME_SLOT_예외가_발생한다() {
-            // given
-            when(lectureEnrollmentRepository.existsByUserAndLectureAtBetween(
-                    user,
-                    lecture.getLectureAt().minusHours(1),
-                    lecture.getLectureAt().plusHours(1)))
-                    .thenReturn(true);
-
-            // when & then
-            assertThatThrownBy(() -> lectureEnrollmentService.validateEnrollment(user, lecture))
-                    .isInstanceOf(ApiException.class)
-                    .hasMessage("동일 시간대에 이미 수강 중인 강의가 있습니다.")
-                    .extracting("apiErrorCode")
-                    .isEqualTo(ApiErrorCode.DUPLICATE_TIME_SLOT);
         }
     }
 
