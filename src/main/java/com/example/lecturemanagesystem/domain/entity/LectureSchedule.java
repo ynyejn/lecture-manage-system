@@ -40,7 +40,7 @@ public class LectureSchedule extends BaseEntity {
     @Column(name = "instructor_name", nullable = false, length = 30)
     private String instructorName;
 
-    @Column(name = "enrolled_count")
+    @Column(name = "enrolled_count", nullable = false)
     private int enrolledCount;
 
     @Column(name = "lecture_at", nullable = false)
