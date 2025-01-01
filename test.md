@@ -158,7 +158,7 @@ sequenceDiagram
     participant Client as 클라이언트
     participant QueueSystem as 대기열
     participant Scheduler as 스케줄러
-    participant CouponSystem as 쿠폰시스템
+    participant CouponSystem as 쿠폰
     
     Client->>QueueSystem: 1. 쿠폰 발급 대기열 등록(userId, couponId)
     Note over QueueSystem: UUID 생성 및<br/>요청정보와 매핑
@@ -187,7 +187,7 @@ sequenceDiagram
 sequenceDiagram
    participant Client as 클라이언트
    participant QueueSystem as 대기열
-   participant CouponSystem as 쿠폰시스템
+   participant CouponSystem as 쿠폰
    
    Client->>QueueSystem: 1. 대기열 등록 요청(userId, couponId)
    QueueSystem->>CouponSystem: 2. 쿠폰 발급 가능 여부 확인
@@ -210,7 +210,7 @@ sequenceDiagram
 sequenceDiagram
     participant Scheduler as 스케줄러
     participant QueueSystem as 대기열
-    participant CouponSystem as 쿠폰시스템
+    participant CouponSystem as 쿠폰
     
     Note over Scheduler: 1초마다 실행
     
