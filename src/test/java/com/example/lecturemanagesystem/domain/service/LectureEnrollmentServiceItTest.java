@@ -4,7 +4,6 @@ import com.example.lecturemanagesystem.domain.dto.LectureEnrollmentCommand;
 import com.example.lecturemanagesystem.domain.dto.LectureEnrollmentInfo;
 import com.example.lecturemanagesystem.domain.dto.LectureScheduleInfo;
 import com.example.lecturemanagesystem.domain.dto.UserLectureSearchCommand;
-import com.example.lecturemanagesystem.domain.entity.LectureEnrollment;
 import com.example.lecturemanagesystem.domain.entity.LectureSchedule;
 import com.example.lecturemanagesystem.domain.entity.User;
 import com.example.lecturemanagesystem.domain.repository.ILectureEnrollmentRepository;
@@ -16,13 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -35,8 +32,6 @@ class LectureEnrollmentServiceItTest {
     private LectureEnrollmentService enrollmentService;
     @Autowired
     private ILectureScheduleRepository lectureScheduleRepository;
-    @Autowired
-    private ILectureEnrollmentRepository lectureEnrollmentRepository;
     @Autowired
     private IUserRepository userRepository;
 
@@ -143,6 +138,41 @@ class LectureEnrollmentServiceItTest {
         assertThat(successCount).isEqualTo(30);
         assertThat(failureCount).isEqualTo(10);
         assertThat(updatedLecture.getEnrolledCount()).isEqualTo(30);
+    }
+
+    @Test
+    void 같은강의를_5번_신청하면_첫번째만_성공하고_이후는_ALREADY_ENROLLED_LECTURE_예외가_발생한다() {
+        // given
+        LectureSchedule lecture = lectureScheduleRepository.save(
+                LectureSchedule.builder()
+                        .title("중복 신청 테스트 강의")
+                        .instructorName("강사1")
+                        .lectureAt(LocalDateTime.now().plusDays(1))
+                        .build()
+        );
+
+        User user = userRepository.save(new User("중복 신청 테스트 유저"));
+
+        // when & then
+        // 첫 번째 신청은 성공
+        assertDoesNotThrow(() ->
+                enrollmentService.enroll(new LectureEnrollmentCommand(lecture.getId(), user.getId()))
+        );
+
+        // 이후 4번의 신청은 모두 실패
+        for (int i = 0; i < 4; i++) {
+            assertThatThrownBy(() ->
+                    enrollmentService.enroll(new LectureEnrollmentCommand(lecture.getId(), user.getId()))
+            )
+                    .isInstanceOf(ApiException.class)
+                    .hasMessage("이미 신청한 강의입니다.")
+                    .extracting("apiErrorCode")
+                    .isEqualTo(ApiErrorCode.ALREADY_ENROLLED_LECTURE);
+        }
+
+        // 최종적으로 한 번만 신청되었는지 확인
+        LectureSchedule updatedLecture = lectureScheduleRepository.findById(lecture.getId()).get();
+        assertThat(updatedLecture.getEnrolledCount()).isEqualTo(1);
     }
 
 }
