@@ -60,7 +60,6 @@ sequenceDiagram
 
 <details>
 <summary>주문/결제 시퀀스 다이어그램</summary>
-<blockquote>주문/결제 통합 시퀀스 다이어그램</blockquote>
 
 ```mermaid
 sequenceDiagram
@@ -88,11 +87,12 @@ sequenceDiagram
     end
 ```
 
-<blockquote>주문 상세 시퀀스 다이어그램</blockquote>
+<details>
+<summary>주문 상세 시퀀스 다이어그램</summary>
+<h2>주문 상세 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
-    title: 주문 프로세스
     participant Customer as 클라이언트
     participant OrderSystem as 주문
     participant ProductSystem as 상품
@@ -116,11 +116,12 @@ sequenceDiagram
     end
 ```
 
-<blockquote>결제 상세 시퀀스 다이어그램</blockquote>
+</details>
+<details>
+<summary>결제 상세 시퀀스 다이어그램</summary>
 
 ```mermaid
 sequenceDiagram
-    title: 결제 프로세스
     participant OrderSystem as 주문
     participant PaymentSystem as 결제
     participant DataSystem as 데이터플랫폼
@@ -141,9 +142,11 @@ sequenceDiagram
 
 </details>
 
+
+</details>
+
 <details>
 <summary>선착순 쿠폰 발급 시퀀스 다이어그램</summary>
-<blockquote>선착순 쿠폰 발급 시퀀스 다이어그램</blockquote>
 
 ```mermaid
 sequenceDiagram
@@ -172,7 +175,8 @@ sequenceDiagram
     end
 ```
 
-<blockquote>대기열 등록 시퀀스 다이어그램</blockquote>
+<details>
+<summary>대기열 등록 시퀀스 다이어그램</summary>
 
 ```mermaid
 sequenceDiagram
@@ -193,7 +197,9 @@ sequenceDiagram
        QueueSystem->>Client: 4b. 에러 응답
    end
 ```
-<blockquote>대기열 처리 스케줄러 시퀀스 다이어그램</blockquote>
+</details>
+<details>
+<summary>대기열 처리 스케줄러 시퀀스 다이어그램</summary>
 
 ```mermaid
 sequenceDiagram
@@ -218,8 +224,9 @@ sequenceDiagram
         end
     end
 ```
-
-<blockquote>발급 확인 시퀀스 다이어그램</blockquote>
+</details>
+<details>
+<summary>발급 확인 시퀀스 다이어그램</summary>
 
 ```mermaid
 sequenceDiagram
@@ -238,6 +245,7 @@ sequenceDiagram
         end
     end
 ```
+</details>
 </details>
 
 <details>
