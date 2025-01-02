@@ -1,5 +1,6 @@
 <details>
 <summary>잔액 충전 시퀀스 다이어그램</summary>
+<h2>잔액 충전 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -20,6 +21,7 @@ sequenceDiagram
 
 <details>
 <summary>잔액 조회 시퀀스 다이어그램</summary>
+<h2>잔액 조회 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -40,6 +42,7 @@ sequenceDiagram
 
 <details>
 <summary>상품 조회 시퀀스 다이어그램</summary>
+<h2>상품 조회 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -60,6 +63,7 @@ sequenceDiagram
 
 <details>
 <summary>주문/결제 시퀀스 다이어그램</summary>
+<h2>주문/결제 통합 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -88,8 +92,8 @@ sequenceDiagram
 ```
 
 <details>
-<summary>주문 상세 시퀀스 다이어그램</summary>
-<h2>주문 상세 시퀀스 다이어그램</h2>
+<summary>a.주문 상세 시퀀스 다이어그램</summary>
+<h2>a.주문 상세 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -118,7 +122,8 @@ sequenceDiagram
 
 </details>
 <details>
-<summary>결제 상세 시퀀스 다이어그램</summary>
+<summary>b.결제 상세 시퀀스 다이어그램</summary>
+<h2>b.결제 상세 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -147,6 +152,7 @@ sequenceDiagram
 
 <details>
 <summary>선착순 쿠폰 발급 시퀀스 다이어그램</summary>
+<h2>선착순 쿠폰 발급 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -176,7 +182,8 @@ sequenceDiagram
 ```
 
 <details>
-<summary>대기열 등록 시퀀스 다이어그램</summary>
+<summary>a.대기열 등록 시퀀스 다이어그램</summary>
+<h2>a.대기열 등록 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -199,7 +206,8 @@ sequenceDiagram
 ```
 </details>
 <details>
-<summary>대기열 처리 스케줄러 시퀀스 다이어그램</summary>
+<summary>b.대기열 처리 스케줄러 시퀀스 다이어그램</summary>
+<h2>b.대기열 처리 스케줄러 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -226,7 +234,8 @@ sequenceDiagram
 ```
 </details>
 <details>
-<summary>발급 확인 시퀀스 다이어그램</summary>
+<summary>c.발급 확인 시퀀스 다이어그램</summary>
+<h2>c.발급 확인 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
@@ -250,6 +259,7 @@ sequenceDiagram
 
 <details>
 <summary>보유 쿠폰 목록 조회 시퀀스 다이어그램</summary>
+<h2>보유 쿠폰 목록 조회 시퀀스 다이어그램</h2>
 
 ```mermaid
 sequenceDiagram
